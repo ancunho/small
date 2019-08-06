@@ -9,7 +9,7 @@
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <context:component-scan base-package="vip.ckbiz" annotation-config="true"/>
+    <context:component-scan base-package="com.small" annotation-config="true"/>
 
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
@@ -45,17 +45,17 @@
         <property name="sqlSession" ref="sqlSession" />
     </bean>
 
-    <bean id="categoryService" class="vip.ckbiz.service.impl.CategoryServiceImpl">
-        <property name="sqlSession" ref="sqlSession" />
-    </bean>
+    <!--<bean id="categoryService" class="vip.ckbiz.service.impl.CategoryServiceImpl">-->
+        <!--<property name="sqlSession" ref="sqlSession" />-->
+    <!--</bean>-->
 
-    <bean id="eventService" class="vip.ckbiz.service.impl.EventServiceImpl">
-        <property name="sqlSession" ref="sqlSession" />
-    </bean>
+    <!--<bean id="eventService" class="vip.ckbiz.service.impl.EventServiceImpl">-->
+        <!--<property name="sqlSession" ref="sqlSession" />-->
+    <!--</bean>-->
 
-    <bean id="eventAPIService" class="vip.ckbiz.service.impl.EventAPIServiceImpl">
-        <property name="sqlSession" ref="sqlSession" />
-    </bean>
+    <!--<bean id="eventAPIService" class="vip.ckbiz.service.impl.EventAPIServiceImpl">-->
+        <!--<property name="sqlSession" ref="sqlSession" />-->
+    <!--</bean>-->
 
 
 </beans>
