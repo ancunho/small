@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SMALL.USER">
+
+    <select id="getAllUser" resultType="com.small.vo.USER">
+        <![CDATA[
+        SELECT ID
+                ,WEIXIN_OPEN_ID
+                ,USERNAME
+                ,PASSWORD
+                ,EMAIL
+                ,PHONE
+                ,QUESTION
+                ,ANSWER
+                ,ROLE
+                ,date_format(CREATETIME,'%Y-%m-%d %T') AS CREATETIME
+                ,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME
+        FROM    MMALL_USER
+        ORDER BY ID DESC
+        ]]>
+    </select>
+
+    <select id="checkUsername" parameterType="String" resultType="int">
+        <![CDATA[
+        SELECT  COUNT(1)
+        FROM    MMALL_USER
+        WHERE   USERNAME = #{username}
+        ]]>
+    </select>
+
+    <select id="checkEmail" parameterType="String" resultType="int">
+        <![CDATA[
+        SELECT  COUNT(1)
+        FROM    MMALL_USER
+        WHERE   EMAIL = #{email}
+        ]]>
+    </select>
+
+    <select id="selectLogin" parameterType="map" resultType="USER">
+        <![CDATA[
+        SELECT  ID
+               ,WEIXIN_OPEN_ID
+               ,USERNAME
+               ,PASSWORD
+               ,EMAIL
+               ,PHONE
+               ,QUESTION
+               ,ANSWER
+               ,ROLE
+               ,date_format(CREATE_TIME,'%Y-%m-%d %T') AS CREATE_TIME
+               ,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME
+        FROM    MMALL_USER
+        WHERE   USERNAME = #{USERNAME}
+        AND     PASSWORD = #{PASSWORD}
+        ]]>
+    </select>
+
+    <insert id="register" parameterType="USER">
+        <![CDATA[
+        INSERT INTO MMALL_USER
+                    (
+                     WEIXIN_OPEN_ID
+                    ,USERNAME
+                    ,PASSWORD
+                    ,EMAIL
+                    ,PHONE
+                    ,QUESTION
+                    ,ANSWER
+                    ,ROLE
+                    ,CREATE_TIME
+                    )
+        VALUES
+                    (
+                     #{WEIXIN_OPEN_ID}
+                    ,#{USERNAME}
+                    ,#{PASSWORD}
+                    ,#{EMAIL}
+                    ,#{PHONE}
+                    ,#{QUESTION}
+                    ,#{ANSWER}
+                    ,#{ROLE}
+                    ,sysdate()
+                    )
+        ]]>
+    </insert>
+
+
+
+</mapper>

@@ -15,12 +15,7 @@
     </settings>
 
     <typeAliases>
-        <!--<typeAlias alias="USERVO"           type="vip.ckbiz.vo.USERVO" />-->
-        <!--<typeAlias alias="CategoryVO"       type="vip.ckbiz.vo.CategoryVO" />-->
-        <!--<typeAlias alias="MENUVO"           type="vip.ckbiz.vo.MENUVO" />-->
-        <!--<typeAlias alias="LOGVO"            type="vip.ckbiz.vo.LOGVO" />-->
-        <!--<typeAlias alias="POSTSVO"          type="vip.ckbiz.vo.POSTSVO" />-->
-        <!--<typeAlias alias="EVENT01VO"        type="vip.ckbiz.vo.EVENT01VO" />-->
+        <typeAlias alias="USER"           type="com.small.vo.USER" />
     </typeAliases>
 
 

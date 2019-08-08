@@ -9,7 +9,7 @@ public class USER implements Serializable {
     private int ID;
     private String WEIXIN_OPEN_ID;
     private String USERNAME;
-    private String PASSWORK;
+    private String PASSWORD;
     private String EMAIL;
     private String PHONE;
     private String QUESTION;
@@ -17,6 +17,7 @@ public class USER implements Serializable {
     private int ROLE;
     private String CREATE_TIME;
     private String UPDATE_TIME;
+
 
     public int getID() {
         return ID;
@@ -42,12 +43,12 @@ public class USER implements Serializable {
         this.USERNAME = USERNAME;
     }
 
-    public String getPASSWORK() {
-        return PASSWORK;
+    public String getPASSWORD() {
+        return PASSWORD;
     }
 
-    public void setPASSWORK(String PASSWORK) {
-        this.PASSWORK = PASSWORK;
+    public void setPASSWORD(String PASSWORD) {
+        this.PASSWORD = PASSWORD;
     }
 
     public String getEMAIL() {
@@ -112,7 +113,7 @@ public class USER implements Serializable {
                 "ID=" + ID +
                 ", WEIXIN_OPEN_ID='" + WEIXIN_OPEN_ID + '\'' +
                 ", USERNAME='" + USERNAME + '\'' +
-                ", PASSWORK='" + PASSWORK + '\'' +
+                ", PASSWORD='" + PASSWORD + '\'' +
                 ", EMAIL='" + EMAIL + '\'' +
                 ", PHONE='" + PHONE + '\'' +
                 ", QUESTION='" + QUESTION + '\'' +

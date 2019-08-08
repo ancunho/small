@@ -2,56 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="SMALL.CATEGORY">
 
-    <insert id="addCategory" parameterType="vip.ckbiz.vo.CategoryVO">
-        <![CDATA[
-        INSERT INTO MALL_CATEGORY
-                    (
-                     PARENT_ID
-                    ,CATEGORYNAME
-                    ,STATUS
-                    ,SORT_ORDER
-                    ,CREATETIME
-                    )
-        VALUES
-                    (
-                     #{PARENT_ID}
-                    ,#{CATEGORYNAME}
-                    ,#{STATUS}
-                    ,#{SORT_ORDER}
-                    ,sysdate()
-                    )
-        ]]>
-    </insert>
+    <!--<insert id="addCategory" parameterType="vip.ckbiz.vo.CategoryVO">-->
+        <!--<![CDATA[-->
+        <!--INSERT INTO MALL_CATEGORY-->
+                    <!--(-->
+                     <!--PARENT_ID-->
+                    <!--,CATEGORYNAME-->
+                    <!--,STATUS-->
+                    <!--,SORT_ORDER-->
+                    <!--,CREATETIME-->
+                    <!--)-->
+        <!--VALUES-->
+                    <!--(-->
+                     <!--#{PARENT_ID}-->
+                    <!--,#{CATEGORYNAME}-->
+                    <!--,#{STATUS}-->
+                    <!--,#{SORT_ORDER}-->
+                    <!--,sysdate()-->
+                    <!--)-->
+        <!--]]>-->
+    <!--</insert>-->
 
-    <update id="updateCategoryName" parameterType="vip.ckbiz.vo.CategoryVO">
-        UPDATE MALL_CATEGORY
-        <set>
-            <if test="PARENT_ID != null">
-                PARENT_ID = #{PARENT_ID}
-            </if>
-            <if test="CATEGORYNAME != null">
-                CATEGORYNAME = #{CATEGORYNAME}
-            </if>
-            <if test="STATUS != null">
-                STATUS = #{STATUS}
-            </if>
-            <if test="SORT_ORDER != null">
-                SORT_ORDER = #{SORT_ORDER}
-            </if>
-            <if test="UPDATETIME != null">
-                UPDATETIME = now()
-            </if>
-        </set>
-        WHERE ID = #{ID}
-    </update>
+    <!--<update id="updateCategoryName" parameterType="vip.ckbiz.vo.CategoryVO">-->
+        <!--UPDATE MALL_CATEGORY-->
+        <!--<set>-->
+            <!--<if test="PARENT_ID != null">-->
+                <!--PARENT_ID = #{PARENT_ID}-->
+            <!--</if>-->
+            <!--<if test="CATEGORYNAME != null">-->
+                <!--CATEGORYNAME = #{CATEGORYNAME}-->
+            <!--</if>-->
+            <!--<if test="STATUS != null">-->
+                <!--STATUS = #{STATUS}-->
+            <!--</if>-->
+            <!--<if test="SORT_ORDER != null">-->
+                <!--SORT_ORDER = #{SORT_ORDER}-->
+            <!--</if>-->
+            <!--<if test="UPDATETIME != null">-->
+                <!--UPDATETIME = now()-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--WHERE ID = #{ID}-->
+    <!--</update>-->
 
-    <select id="checkUsername" parameterType="String" resultType="int">
-        <![CDATA[
-        SELECT  COUNT(1)
-        FROM    MALL_USER
-        WHERE   USERNAME = #{username}
-        ]]>
-    </select>
+    <!--<select id="checkUsername" parameterType="String" resultType="int">-->
+        <!--<![CDATA[-->
+        <!--SELECT  COUNT(1)-->
+        <!--FROM    MALL_USER-->
+        <!--WHERE   USERNAME = #{username}-->
+        <!--]]>-->
+    <!--</select>-->
 
 
 </mapper>
