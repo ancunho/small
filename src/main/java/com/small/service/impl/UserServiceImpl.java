@@ -23,8 +23,6 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     public ServerResponse<USER> login(String username, String password) {
-        System.out.println("username:>>>>" + username);
-        System.out.println("password:>>>>" + password);
         int resultCount = sqlSession.selectOne("SMALL.USER.checkUsername", username);
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
