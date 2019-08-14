@@ -68,6 +68,7 @@
                     ,ANSWER
                     ,ROLE
                     ,CREATE_TIME
+                    ,UPDATE_TIME
                     )
         VALUES
                     (
@@ -79,7 +80,8 @@
                     ,#{QUESTION}
                     ,#{ANSWER}
                     ,#{ROLE}
-                    ,sysdate()
+                    ,now()
+                    ,now()
                     )
         ]]>
     </insert>
