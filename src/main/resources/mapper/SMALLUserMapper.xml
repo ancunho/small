@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="SMALL.USER">
 
+    <sql id="Base_Column_List" >
+        id, username, password, email, phone, question, answer, role, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM    MMALL_USER
+        WHERE   ID = #{ID,jdbcType=INTEGER}
+    </select>
+
     <select id="getAllUser" resultType="com.small.vo.USER">
         <![CDATA[
         SELECT ID
@@ -107,10 +117,54 @@
     <update id="updatePasswordByUsername" parameterType="map">
         <![CDATA[
         UPDATE    MMALL_USER
-        SET       PASSWORD = #{}
+        SET       PASSWORD = #{PASSWORDNEW}
+                  , UPDATE_TIME = NOW()
+        WHERE     USERNAME = #{USERNAME}
         ]]>
     </update>
 
+    <update id="updateByPrimaryKeySelective" parameterType="com.small.vo.USER" >
+        UPDATE MMALL_USER
+        <set >
+            <if test="PASSWORD != null" >
+                USERNAME = #{USERNAME,jdbcType=VARCHAR},
+            </if>
+            <if test="PASSWORD != null" >
+                PASSWORD = #{PASSWORD,jdbcType=VARCHAR},
+            </if>
+            <if test="EMAIL != null" >
+                EMAIL = #{EMAIL,jdbcType=VARCHAR},
+            </if>
+            <if test="PHONE != null" >
+                PHONE = #{PHONE,jdbcType=VARCHAR},
+            </if>
+            <if test="QUESTION != null" >
+                QUESTION = #{QUESTION,jdbcType=VARCHAR},
+            </if>
+            <if test="ANSWER != null" >
+                ANSWER = #{ANSWER,jdbcType=VARCHAR},
+            </if>
+            <if test="ROLE != null" >
+                ROLE = #{ROLE,jdbcType=INTEGER},
+            </if>
+            <if test="CREATE_TIME != null" >
+                CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+            </if>
+            <if test="UPDATE_TIME != null" >
+                UPDATE_TIME = now(),
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="checkEmailByUserID" parameterType="com.small.vo.USER" resultType="int">
+        <![CDATA[
+        SELECT    COUNT(1)
+        FROM      MMALL_USER
+        WHERE     EMAIL = #{EMAIL}
+        AND       ID != #{ID}
+        ]]>
+    </select>
 
 
 </mapper>

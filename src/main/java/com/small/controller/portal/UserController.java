@@ -1,6 +1,7 @@
 package com.small.controller.portal;
 
 import com.small.common.Const;
+import com.small.common.ResponseCode;
 import com.small.common.ServerResponse;
 import com.small.service.UserService;
 import com.small.vo.USER;
@@ -67,6 +68,51 @@ public class UserController {
     public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
         return userService.checkAnswer(username,question, answer);
     }
+
+    @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> forgetResetPassword(String username, String passwordnew, String forgetToken) {
+        return userService.forgetResetPassword(username, passwordnew, forgetToken);
+    }
+
+    @RequestMapping(value = "reset_password.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
+        USER user = (USER) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        return userService.resetPassword(passwordOld, passwordNew, user);
+    }
+
+    @RequestMapping(value = "update_information.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<USER> updateInformation(HttpSession session, USER user) {
+        USER currentUser = (USER) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        user.setID(currentUser.getID());
+        user.setUSERNAME(currentUser.getUSERNAME());
+        ServerResponse<USER> response = userService.updateInformation(user);
+        if (response.isSuccess()) {
+            session.setAttribute(Const.CURRENT_USER, response.getData());
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "get_information.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<USER> getInformation(HttpSession session) {
+        USER currentUser = (USER) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登录， 需要强制登陆status=10");
+        }
+
+        return userService.getInformation(currentUser.getID());
+    }
+
+
 
     public UserService getUserService() {
         return userService;

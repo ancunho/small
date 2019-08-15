@@ -108,10 +108,11 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 通过用户名找回他的问题
+     *
      * @param username
      * @return
      */
-    public ServerResponse selectQuestion(String username) {
+    public ServerResponse<String> selectQuestion(String username) {
         ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
         if (validResponse.isSuccess()) {
             return ServerResponse.createByErrorMessage("用户不存在");
@@ -127,6 +128,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 验证问题的答案
+     *
      * @param username
      * @param question
      * @param answer
@@ -146,8 +148,15 @@ public class UserServiceImpl implements UserService {
         return ServerResponse.createByErrorMessage("问题的答案错误！");
     }
 
-
-    public ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken) {
+    /**
+     * 忘记密码步骤的修改密码
+     *
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
+     */
+    public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
         if (org.apache.commons.lang3.StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("参数错误,token需要传递");
         }
@@ -156,17 +165,88 @@ public class UserServiceImpl implements UserService {
             return ServerResponse.createByErrorMessage("用户不存在");
         }
         String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
-        if(org.apache.commons.lang3.StringUtils.isBlank(token)){
+        if (org.apache.commons.lang3.StringUtils.isBlank(token)) {
             return ServerResponse.createByErrorMessage("token无效或者过期");
         }
 
         if (org.apache.commons.lang3.StringUtils.equals(forgetToken, token)) {
             String md5Password = MD5Utils.MD5EncodeUtf8(passwordNew);
-            //todo
-
+            Map<String, Object> param = new HashMap<>();
+            param.put("USERNAME", username);
+            param.put("PASSWORDNEW", md5Password);
+            int rowCount = sqlSession.update("SMALL.USER.updatePasswordByUsername", param);
+            if (rowCount > 0) {
+                return ServerResponse.createBySuccessMessage("修改密码成功");
+            }
+        } else {
+            return ServerResponse.createByErrorMessage("token错误， 请重新获取重置密码的token");
         }
-        //todo
-        return null;
+        return ServerResponse.createByErrorMessage("修改密码失败");
+    }
+
+    /**
+     * 登陆状态下更新密码
+     * @param passwordOld
+     * @param passwordNew
+     * @param user
+     * @return
+     */
+    public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, USER user) {
+        //防止横向越权， 要校验一下这个用户的旧密码， 一定要指定是这个用户， 因为我们会查询一个count(1), 如果不指定id， 那么结果就是true拉， 就是count(1) > 0拉；
+        Map<String, Object> param = new HashMap<>();
+        param.put("PASSWORDOLD", passwordOld);
+        param.put("ID", user.getID());
+        int resultCount = sqlSession.selectOne("SMALL.USER.checkPassword", param);
+        if (resultCount == 0) {
+            return ServerResponse.createByErrorMessage("旧密码错误");
+        }
+        user.setPASSWORD(MD5Utils.MD5EncodeUtf8(passwordNew));
+        int updateCount = sqlSession.update("SMALL.USER.updateByPrimaryKeySelective", user);
+        if (updateCount > 0) {
+            return ServerResponse.createBySuccessMessage("更新密码成功");
+        }
+        return ServerResponse.createByErrorMessage("更新密码失败");
+    }
+
+    /**
+     * 更新个人信息
+     * @param user
+     * @return
+     */
+    public ServerResponse<USER> updateInformation(USER user) {
+//        Map<String, Object> param = new HashMap<>();
+//        param.put("")
+        int resultCount = sqlSession.selectOne("SMALL.USER.checkEmailByUserID",user);
+        if (resultCount > 0) {
+            return ServerResponse.createByErrorMessage("邮箱已被别人占用， 请使用其他邮箱地址");
+        }
+
+        USER updateUser = new USER();
+        updateUser.setID(user.getID());
+        updateUser.setEMAIL(user.getEMAIL());
+        updateUser.setPHONE(user.getPHONE());
+        updateUser.setQUESTION(user.getQUESTION());
+        updateUser.setANSWER(user.getANSWER());
+
+        int updateCount = sqlSession.update("SMALL.USER.updateByPrimaryKeySelective", updateUser);
+        if (updateCount > 0) {
+            return ServerResponse.createBySuccess("更新个人信息成功", updateUser);
+        }
+        return ServerResponse.createByErrorMessage("更新个人信息失败");
+    }
+
+    /**
+     * 获取用户信息
+     * @param userId
+     * @return
+     */
+    public ServerResponse<USER> getInformation(Integer userId) {
+        USER user = sqlSession.selectOne("SMALL.USER.selectByPrimaryKey", userId);
+        if (user == null) {
+            return ServerResponse.createByErrorMessage("找不到当前用户");
+        }
+        user.setPASSWORD(StringUtils.EMPTY);
+        return ServerResponse.createBySuccess(user);
     }
 
 

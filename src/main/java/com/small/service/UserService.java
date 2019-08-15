@@ -26,7 +26,7 @@ public interface UserService {
      * @param username
      * @return
      */
-    ServerResponse selectQuestion(String username);
+    ServerResponse<String> selectQuestion(String username);
 
     /**
      * 验证问题的答案
@@ -36,4 +36,37 @@ public interface UserService {
      * @return
      */
     ServerResponse<String> checkAnswer(String username, String question, String answer);
+
+
+    /**
+     * 忘记密码步骤的密码修改
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
+     */
+    ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken);
+
+    /**
+     * 登陆状态下更新密码
+     * @param passwordOld
+     * @param passwordNew
+     * @param user
+     * @return
+     */
+    ServerResponse<String> resetPassword(String passwordOld, String passwordNew, USER user);
+
+    /**
+     * 更新个人信息
+     * @param user
+     * @return
+     */
+    ServerResponse<USER> updateInformation(USER user);
+
+    /**
+     * 获取个人信息
+     * @param userId
+     * @return
+     */
+    ServerResponse<USER> getInformation(Integer userId);
 }
