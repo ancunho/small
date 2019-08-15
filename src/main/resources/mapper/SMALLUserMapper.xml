@@ -86,6 +86,31 @@
         ]]>
     </insert>
 
+    <select id="selectQuestionByUsername" parameterType="String" resultType="String">
+        <![CDATA[
+        SELECT  QUESTION
+        FROM    MMALL_USER
+        WHERE   USERNAME = #{USERNAME}
+        ]]>
+    </select>
+
+    <select id="checkAnswer" parameterType="map" resultType="int">
+        <![CDATA[
+        SELECT  COUNT(1)
+        FROM    MMALL_USER
+        WHERE   USERNAME = #{USERNAME}
+        AND     QUESTION = #{QUESTION}
+        AND     ANSWER = #{ANSWER}
+        ]]>
+    </select>
+
+    <update id="updatePasswordByUsername" parameterType="map">
+        <![CDATA[
+        UPDATE    MMALL_USER
+        SET       PASSWORD = #{}
+        ]]>
+    </update>
+
 
 
 </mapper>

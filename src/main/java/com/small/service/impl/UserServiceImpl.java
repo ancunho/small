@@ -2,6 +2,7 @@ package com.small.service.impl;
 
 import com.small.common.Const;
 import com.small.common.ServerResponse;
+import com.small.common.TokenCache;
 import com.small.controller.portal.UserController;
 import com.small.service.UserService;
 import com.small.util.MD5Utils;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class UserServiceImpl implements UserService {
@@ -102,6 +104,69 @@ public class UserServiceImpl implements UserService {
             return ServerResponse.createByErrorMessage("参数错误");
         }
         return ServerResponse.createBySuccessMessage("校验成功");
+    }
+
+    /**
+     * 通过用户名找回他的问题
+     * @param username
+     * @return
+     */
+    public ServerResponse selectQuestion(String username) {
+        ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
+        if (validResponse.isSuccess()) {
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+
+        String question = sqlSession.selectOne("SMALL.USER.selectQuestionByUsername", username);
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(question)) {
+            return ServerResponse.createBySuccess(question);
+        }
+        return ServerResponse.createByErrorMessage("找回密码的问题是空的");
+
+    }
+
+    /**
+     * 验证问题的答案
+     * @param username
+     * @param question
+     * @param answer
+     * @return
+     */
+    public ServerResponse<String> checkAnswer(String username, String question, String answer) {
+        Map<String, String> param = new HashMap<>();
+        param.put("USERNAME", username);
+        param.put("QUESTION", question);
+        param.put("ANSWER", answer);
+        int resultCount = sqlSession.selectOne("SMALL.USER.checkAnswer", param);
+        if (resultCount > 0) {
+            String forgetToken = UUID.randomUUID().toString();
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
+            return ServerResponse.createBySuccess(forgetToken);
+        }
+        return ServerResponse.createByErrorMessage("问题的答案错误！");
+    }
+
+
+    public ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(forgetToken)) {
+            return ServerResponse.createByErrorMessage("参数错误,token需要传递");
+        }
+        ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
+        if (validResponse.isSuccess()) {
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
+        if(org.apache.commons.lang3.StringUtils.isBlank(token)){
+            return ServerResponse.createByErrorMessage("token无效或者过期");
+        }
+
+        if (org.apache.commons.lang3.StringUtils.equals(forgetToken, token)) {
+            String md5Password = MD5Utils.MD5EncodeUtf8(passwordNew);
+            //todo
+
+        }
+        //todo
+        return null;
     }
 
 

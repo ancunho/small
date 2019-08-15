@@ -19,4 +19,21 @@ public interface UserService {
      * @return
      */
     ServerResponse<String> register(USER user);
+
+
+    /**
+     * 找回密码问题-》 通过用户名
+     * @param username
+     * @return
+     */
+    ServerResponse selectQuestion(String username);
+
+    /**
+     * 验证问题的答案
+     * @param username
+     * @param question
+     * @param answer
+     * @return
+     */
+    ServerResponse<String> checkAnswer(String username, String question, String answer);
 }
