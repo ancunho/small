@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/manage/user/")
+@RequestMapping("/managed/user/")
 public class UserManageController {
 
     @Autowired
     private UserService userService;
 
 
-    @RequestMapping(value = "login.do", method = RequestMethod.POST)
+    @RequestMapping(value = "loginM.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<USER> login(String username, String password, HttpSession session) {
+    public ServerResponse<USER> loginM(String username, String password, HttpSession session) {
         ServerResponse<USER> response = userService.login(username,password);
         if (response.isSuccess()) {
             USER user = response.getData();
@@ -35,6 +35,14 @@ public class UserManageController {
         }
         return response;
     }
+
+//    @RequestMapping(value = "get_all_user.do", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ServerResponse<USER> getAllUser(HttpSession session) {
+////        ServerResponse response =
+//
+//        return response;
+//    }
 
     public UserService getUserService() {
         return userService;

@@ -3,24 +3,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="<%=request.getContextPath()%>" />
 
-
 <!DOCTYPE html>
 <html>
-
 <head>
-    <script type="text/javascript">
-        var contextRootPath = "${ctx}";
-    </script>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登录</title>
+    <%@include file="common/metahtml.jsp"%>
 
-    <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!-- Ladda style -->
+    <link href="${ctx}/static/css/plugins/ladda/ladda-themeless.min.css" rel="stylesheet">
 
-    <link href="${ctx}/static/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/static/css/style.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="${ctx}/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
 </head>
 
@@ -35,27 +28,95 @@
         <%--</div>--%>
         <h3>欢迎登录</h3>
         <%--<p>一套高质量的后台管理html模板</p>--%>
-        <form class="m-t" role="form" action="index.html">
+        <form class="m-t" role="form">
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="用户名" required="">
+                <input type="email" class="form-control" id="USERNAME" placeholder="用户名" required="">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="密码" required="">
+                <input type="password" class="form-control" id="PASSWORD" placeholder="密码" required="">
             </div>
-            <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
+            <button type="submit" class="btn btn-primary block full-width m-b" data-style="slide-up" id="btnLogin">登录</button>
 
-            <a href="#"><small>忘记密码?</small></a>
-            <p class="text-muted text-center"><small>还没有账号?</small></p>
-            <a class="btn btn-sm btn-white btn-block" href="register.html">创建一个帐户</a>
+            <a href="${ctx}/page/user/forget_password.do"><small>忘记密码?</small></a>
+            <%--<p class="text-muted text-center"><small>还没有账号?</small></p>--%>
+            <%--<a class="btn btn-sm btn-white btn-block" href="#this">创建一个帐户</a>--%>
         </form>
         <p class="m-t"> <small>Copyright</strong> </small> </p>
     </div>
 </div>
+<!-- include footer start -->
+<%@include file="common/footer.jsp"%>
+<!-- include footer end -->
 
-<!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-3.1.1.min.js"></script>
-<script src="${ctx}/static/js/popper.min.js"></script>
-<script src="${ctx}/static/js/bootstrap.js"></script>
+<!-- Ladda -->
+<script src="${ctx}/static/js/plugins/ladda/spin.min.js"></script>
+<script src="${ctx}/static/js/plugins/ladda/ladda.min.js"></script>
+<script src="${ctx}/static/js/plugins/ladda/ladda.jquery.min.js"></script>
+
+<!-- Sweet alert -->
+<script src="${ctx}/static/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var l = $("#btnLogin").ladda();
+
+        $("#btnLogin").unbind('click').click(function(){
+
+            l.ladda('start');
+            var param = {
+                username : $("#USERNAME").val()
+                ,password : $("#PASSWORD").val()
+            };
+
+            if (param.username == '') {
+                // alert("用户名不能为空");
+                swal ( "Oops" ,  "用户名不能为空" ,  "error" );
+                l.ladda('stop');
+                return;
+            }
+            if (param.password == '') {
+                // alert("密码不能为空");
+                swal ( "Oops" ,  "密码不能为空" ,  "error" );
+                l.ladda('stop');
+                return;
+            }
+
+            $.ajax({
+                type : 'POST'
+                ,url : contextRootPath + '/user/login.do'
+                ,data : param
+                ,dataType : 'json'
+                ,success : function(response){
+                    console.log(response);
+                    l.ladda('stop');
+                    if (response.status == 1) {
+                        // alert(response.msg);
+                        swal ( "Oops" , response.msg ,  "error" );
+                    } else if (response.status == 0) {
+                        var $frmCommon = $("#frmSPCICommon");
+                        if ($frmCommon.length < 1) {
+                            $frmCommon = $("<form/>").attr({id:"frmCunhoCommon", method:'POST'});
+                            $(document.body).append($frmCommon);
+                        }
+                        $frmCommon.empty();
+                        $frmCommon.attr('target', '_self');
+                        $frmCommon.attr('action', contextRootPath + '/page/index.do');
+
+                        $frmCommon.submit();
+                    }
+                }
+                ,error : function(req, status, e) {
+                    // alert(req, status, e);
+                    console.log(e);
+                    l.ladda('stop');
+                }
+            });
+
+
+        });
+
+    });
+</script>
+
 
 </body>
 

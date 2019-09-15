@@ -14,7 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     private SqlSession sqlSession;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
      * 用户登陆
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
      */
     public ServerResponse<USER> login(String username, String password) {
         int resultCount = sqlSession.selectOne("SMALL.USER.checkUsername", username);
+
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
         }
@@ -247,6 +250,16 @@ public class UserServiceImpl implements UserService {
         }
         user.setPASSWORD(StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
+    }
+
+
+    public ServerResponse getAllUser(HttpSession session) {
+        List<USER> userList = sqlSession.selectList("SMALL.USER.getAllUser");
+
+
+
+
+        return null;
     }
 
 
