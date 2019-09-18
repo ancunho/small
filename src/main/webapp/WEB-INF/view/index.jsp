@@ -2,21 +2,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>系统</title>
-    <%@include file="common/portal_meta.jsp"%>
+    <title>系统 - 管理员</title>
+    <%@include file="common/admin_meta.jsp"%>
 </head>
 
 <body class="">
 
 <div id="wrapper">
     <!-- Left Menu Start -->
-    <%@include file="common/portal_leftmenu.jsp"%>
+    <%@include file="common/admin_leftmenu.jsp"%>
     <!-- // Left Menu End -->
 
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
             <!-- Top Start -->
-            <%@include file="common/portal_top.jsp"%>
+            <%@include file="common/admin_top.jsp"%>
             <!-- // Top End -->
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
@@ -61,7 +61,7 @@
 </div>
 
 <!-- Top Start -->
-<%@include file="common/portal_footer.jsp"%>
+<%@include file="common/admin_footer.jsp"%>
 <!-- // Top End -->
 
 

@@ -10,7 +10,7 @@
     </div>
     <ul class="nav navbar-top-links navbar-right">
         <li>
-            <span class="m-r-sm text-muted welcome-message">欢迎来到inspinia 2.9.2管理后台</span>
+            <span class="m-r-sm text-muted welcome-message">欢迎来到管理后台</span>
         </li>
         <li class="dropdown">
             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -20,7 +20,7 @@
                 <li>
                     <div class="dropdown-messages-box">
                         <a class="dropdown-item float-left" href="profile.html">
-                            <img alt="image" class="rounded-circle" src="img/a7.jpg">
+                            <img alt="image" class="rounded-circle" src="${ctx}/static/img/a7.jpg">
                         </a>
                         <div class="media-body">
                             <small class="float-right">46 小时前</small>
@@ -33,7 +33,7 @@
                 <li>
                     <div class="dropdown-messages-box">
                         <a class="dropdown-item float-left" href="profile.html">
-                            <img alt="image" class="rounded-circle" src="img/a4.jpg">
+                            <img alt="image" class="rounded-circle" src="${ctx}/static/img/a4.jpg">
                         </a>
                         <div class="media-body ">
                             <small class="float-right text-navy">5 小时前</small>
@@ -46,7 +46,7 @@
                 <li>
                     <div class="dropdown-messages-box">
                         <a class="dropdown-item float-left" href="profile.html">
-                            <img alt="image" class="rounded-circle" src="img/profile.jpg">
+                            <img alt="image" class="rounded-circle" src="${ctx}/static/img/profile.jpg">
                         </a>
                         <div class="media-body ">
                             <small class="float-right">23 小时前</small>
@@ -110,8 +110,8 @@
 
 
         <li>
-            <a href="login.html">
-                <i class="fa fa-sign-out"></i> 注销
+            <a href="${ctx}/page/logout.do" id="btnLogout">
+                <i class="fa fa-sign-out"></i> 退出
             </a>
         </li>
     </ul>
