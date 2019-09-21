@@ -169,5 +169,12 @@
         ]]>
     </select>
 
+    <select id="checkPassword" resultType="int" parameterType="map">
+        SELECT    COUNT(1)
+        FROM      MMALL_USER
+        WHERE     PASSWORD = #{PASSWORDOLD}
+        AND       ID = #{ID}
+    </select>
+
 
 </mapper>

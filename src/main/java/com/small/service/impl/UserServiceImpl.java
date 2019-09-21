@@ -197,7 +197,7 @@ public class UserServiceImpl implements UserService {
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, USER user) {
         //防止横向越权， 要校验一下这个用户的旧密码， 一定要指定是这个用户， 因为我们会查询一个count(1), 如果不指定id， 那么结果就是true拉， 就是count(1) > 0拉；
         Map<String, Object> param = new HashMap<>();
-        param.put("PASSWORDOLD", passwordOld);
+        param.put("PASSWORDOLD", MD5Utils.MD5EncodeUtf8(passwordOld));
         param.put("ID", user.getID());
         int resultCount = sqlSession.selectOne("SMALL.USER.checkPassword", param);
         if (resultCount == 0) {
@@ -253,13 +253,17 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public ServerResponse getAllUser(HttpSession session) {
-        List<USER> userList = sqlSession.selectList("SMALL.USER.getAllUser");
-
-
-
-
-        return null;
+    //Back-End
+    /**
+     * 校验是否是管理员
+     * @param user
+     * @return
+     */
+    public ServerResponse checkAdminRole(USER user){
+        if(user != null && user.getROLE()== Const.Role.ROLE_ADMIN){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
     }
 
 
