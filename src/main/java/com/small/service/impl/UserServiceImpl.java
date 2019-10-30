@@ -252,6 +252,10 @@ public class UserServiceImpl implements UserService {
         return ServerResponse.createBySuccess(user);
     }
 
+//    public ServerResponse<List<USER>> getAllUser() {
+//
+//    }
+
 
     //Back-End
     /**
