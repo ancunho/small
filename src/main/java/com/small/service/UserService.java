@@ -69,4 +69,11 @@ public interface UserService {
      * @return
      */
     ServerResponse<USER> getInformation(Integer userId);
+
+    /**
+     * 检测是否管理员
+     * @param user
+     * @return
+     */
+    ServerResponse checkAdminRole(USER user);
 }

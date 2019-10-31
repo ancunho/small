@@ -2,26 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="SMALL.CATEGORY">
 
-    <!--<insert id="addCategory" parameterType="vip.ckbiz.vo.CategoryVO">-->
-        <!--<![CDATA[-->
-        <!--INSERT INTO MALL_CATEGORY-->
-                    <!--(-->
-                     <!--PARENT_ID-->
-                    <!--,CATEGORYNAME-->
-                    <!--,STATUS-->
-                    <!--,SORT_ORDER-->
-                    <!--,CREATETIME-->
-                    <!--)-->
-        <!--VALUES-->
-                    <!--(-->
-                     <!--#{PARENT_ID}-->
-                    <!--,#{CATEGORYNAME}-->
-                    <!--,#{STATUS}-->
-                    <!--,#{SORT_ORDER}-->
-                    <!--,sysdate()-->
-                    <!--)-->
-        <!--]]>-->
-    <!--</insert>-->
+    <insert id="addCategory" parameterType="com.small.vo.CATEGORY">
+        <![CDATA[
+        INSERT INTO MMALL_CATEGORY
+                    (
+                     PARENT_ID
+                    ,NAME
+                    ,STATUS
+                    ,SORT_ORDER
+                    ,CREATE_TIME
+                    ,UPDATE_TIME
+                    )
+        VALUES
+                    (
+                     #{PARENT_ID}
+                    ,#{NAME}
+                    ,#{STATUS}
+                    ,#{SORT_ORDER}
+                    ,sysdate()
+                    ,sysdate()
+                    )
+        ]]>
+    </insert>
 
     <!--<update id="updateCategoryName" parameterType="vip.ckbiz.vo.CategoryVO">-->
         <!--UPDATE MALL_CATEGORY-->
