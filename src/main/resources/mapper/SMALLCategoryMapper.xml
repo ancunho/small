@@ -25,27 +25,30 @@
         ]]>
     </insert>
 
-    <!--<update id="updateCategoryName" parameterType="vip.ckbiz.vo.CategoryVO">-->
-        <!--UPDATE MALL_CATEGORY-->
-        <!--<set>-->
-            <!--<if test="PARENT_ID != null">-->
-                <!--PARENT_ID = #{PARENT_ID}-->
-            <!--</if>-->
-            <!--<if test="CATEGORYNAME != null">-->
-                <!--CATEGORYNAME = #{CATEGORYNAME}-->
-            <!--</if>-->
-            <!--<if test="STATUS != null">-->
-                <!--STATUS = #{STATUS}-->
-            <!--</if>-->
-            <!--<if test="SORT_ORDER != null">-->
-                <!--SORT_ORDER = #{SORT_ORDER}-->
-            <!--</if>-->
-            <!--<if test="UPDATETIME != null">-->
-                <!--UPDATETIME = now()-->
-            <!--</if>-->
-        <!--</set>-->
-        <!--WHERE ID = #{ID}-->
-    <!--</update>-->
+    <update id="updateCategoryName" parameterType="com.small.vo.CATEGORY">
+        UPDATE MMALL_CATEGORY
+        <set>
+            <if test="PARENT_ID != null">
+                PARENT_ID = #{PARENT_ID}
+            </if>
+            <if test="NAME != null">
+                ,NAME = #{NAME}
+            </if>
+            <if test="STATUS != null">
+                ,STATUS = #{STATUS}
+            </if>
+            <if test="SORT_ORDER != null">
+                ,SORT_ORDER = #{SORT_ORDER}
+            </if>
+            <if test="CREATE_TIME != null">
+                ,CREATE_TIME = #{CREATE_TIME}
+            </if>
+            <if test="UPDATE_TIME != null">
+                ,UPDATE_TIME = now()
+            </if>
+        </set>
+        WHERE ID = #{ID}
+    </update>
 
     <!--<select id="checkUsername" parameterType="String" resultType="int">-->
         <!--<![CDATA[-->

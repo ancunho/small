@@ -10,6 +10,14 @@ public interface CategoryService {
      * @param parentId
      * @return
      */
-    public ServerResponse addCategory(String categoryName, Integer parentId);
+    ServerResponse addCategory(String categoryName, Integer parentId);
+
+    /**
+     * 更新分类名字
+     * @param categoryId
+     * @param categoryName
+     * @return
+     */
+    ServerResponse updateCategoryName(Integer categoryId, String categoryName);
 
 }

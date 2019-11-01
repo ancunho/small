@@ -32,7 +32,7 @@ public class CategoryManageController {
 
     @RequestMapping(value = "add_category.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse add_category(HttpSession session, String categoryName, @RequestParam(value = "parentId",defaultValue = "0") int parentId) {
+    public ServerResponse addCategory(HttpSession session, String categoryName, @RequestParam(value = "parentId", defaultValue = "0") int parentId) {
         USER user = (USER) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录");
@@ -40,11 +40,27 @@ public class CategoryManageController {
 
         //校验一下是否管理员
         if (userService.checkAdminRole(user).isSuccess()) {
-            return categoryService.addCategory(categoryName,parentId);
+            return categoryService.addCategory(categoryName, parentId);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作！，需要管理员权限");
         }
 
+    }
+
+    @RequestMapping(value = "update_category_name.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse updateCategoryName(HttpSession session, Integer categoryId, String categoryName) {
+        USER user = (USER) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+        }
+
+        if (userService.checkAdminRole(user).isSuccess()) {
+            logger.info("categoryID:" + categoryId + ", categoryName:" + categoryName);
+            return categoryService.updateCategoryName(categoryId, categoryName);
+        } else {
+            return ServerResponse.createByErrorMessage("无权限操作,需要管理员权限");
+        }
     }
 
     public UserService getUserService() {
