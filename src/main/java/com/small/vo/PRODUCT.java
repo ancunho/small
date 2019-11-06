@@ -4,32 +4,32 @@ import java.io.Serializable;
 
 public class PRODUCT implements Serializable {
 
-    private int ID;
-    private int CATEGORY_ID;
+    private Integer ID;
+    private Integer CATEGORY_ID;
     private String NAME;
     private String SUBTITLE;
     private String MAIN_IMAGE;
     private String SUB_IMAGES;
     private String DETAIL;
-    private int PRICE;
-    private int STOCK;
-    private int STATUS;
+    private Integer PRICE;
+    private Integer STOCK;
+    private Integer STATUS;
     private String CREATE_TIME;
     private String UPDATE_TIME;
 
-    public int getID() {
+    public Integer getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 
-    public int getCATEGORY_ID() {
+    public Integer getCATEGORY_ID() {
         return CATEGORY_ID;
     }
 
-    public void setCATEGORY_ID(int CATEGORY_ID) {
+    public void setCATEGORY_ID(Integer CATEGORY_ID) {
         this.CATEGORY_ID = CATEGORY_ID;
     }
 
@@ -73,27 +73,27 @@ public class PRODUCT implements Serializable {
         this.DETAIL = DETAIL;
     }
 
-    public int getPRICE() {
+    public Integer getPRICE() {
         return PRICE;
     }
 
-    public void setPRICE(int PRICE) {
+    public void setPRICE(Integer PRICE) {
         this.PRICE = PRICE;
     }
 
-    public int getSTOCK() {
+    public Integer getSTOCK() {
         return STOCK;
     }
 
-    public void setSTOCK(int STOCK) {
+    public void setSTOCK(Integer STOCK) {
         this.STOCK = STOCK;
     }
 
-    public int getSTATUS() {
+    public Integer getSTATUS() {
         return STATUS;
     }
 
-    public void setSTATUS(int STATUS) {
+    public void setSTATUS(Integer STATUS) {
         this.STATUS = STATUS;
     }
 

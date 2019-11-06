@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SMALL.PRODUCT">
+
+    <insert id="insertNewProduct" parameterType="com.small.vo.PRODUCT">
+        <![CDATA[
+        INSERT INTO MMALL_PRODUCT
+                    (
+                    CATEGORY_ID
+                    ,NAME
+                    ,SUBTITLE
+                    ,MAIN_IMAGE
+                    ,SUB_IMAGES
+                    ,DETAIL
+                    ,PRICE
+                    ,STOCK
+                    ,STATUS
+                    ,CREATE_TIME
+                    ,UPDATE_TIME
+                    )
+        VALUES
+                    (
+                     #{CATEGORY_ID}
+                    ,#{NAME}
+                    ,#{SUBTITLE}
+                    ,#{MAIN_IMAGE}
+                    ,#{SUB_IMAGES}
+                    ,#{DETAIL}
+                    ,#{PRICE}
+                    ,#{STOCK}
+                    ,#{STATUS}
+                    ,now()
+                    ,now()
+                    )
+        ]]>
+    </insert>
+
+
+    <update id="updateByPrimaryKey" parameterType="com.small.vo.PRODUCT">
+        <![CDATA[
+         UPDATE MMALL_PRODUCT
+            SET CATEGORY_ID = #{CATEGORY_ID,JDBCTYPE=INTEGER}
+                ,NAME = #{NAME,JDBCTYPE=VARCHAR}
+                ,SUBTITLE = #{SUBTITLE,JDBCTYPE=VARCHAR}
+                ,MAIN_IMAGE = #{MAIN_IMAGE,JDBCTYPE=VARCHAR}
+                ,SUB_IMAGES = #{SUB_IMAGES,JDBCTYPE=VARCHAR}
+                ,DETAIL = #{DETAIL,JDBCTYPE=VARCHAR}
+                ,PRICE = #{PRICE,JDBCTYPE=DECIMAL}
+                ,STOCK = #{STOCK,JDBCTYPE=INTEGER}
+                ,STATUS = #{STATUS,JDBCTYPE=INTEGER}
+                ,CREATE_TIME = #{CREATE_TIME,JDBCTYPE=TIMESTAMP}
+                ,UPDATE_TIME = NOW()
+            WHERE ID = #{ID,JDBCTYPE=INTEGER}
+        ]]>
+    </update>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.small.vo.PRODUCT">
+        UPDATE MMALL_PRODUCT
+        <set>
+            <if test="CATEGORY_ID != null">
+                CATEGORY_ID = #{CATEGORY_ID}
+            </if>
+            <if test="NAME != null">
+                ,NAME = #{NAME}
+            </if>
+            <if test="SUBTITLE != null">
+                ,SUBTITLE = #{SUBTITLE}
+            </if>
+            <if test="MAIN_IMAGE != null">
+                ,MAIN_IMAGE = #{MAIN_IMAGE}
+            </if>
+            <if test="SUB_IMAGES != null">
+                ,SUB_IMAGES = #{SUB_IMAGES}
+            </if>
+            <if test="DETAIL != null">
+                ,DETAIL = #{DETAIL}
+            </if>
+            <if test="PRICE != null">
+                ,PRICE = #{PRICE}
+            </if>
+            <if test="STOCK != null">
+                ,STOCK = #{STOCK}
+            </if>
+            <if test="STATUS != null">
+                ,STATUS = #{STATUS}
+            </if>
+            <if test="CREATE_TIME != null">
+                ,CREATE_TIME = #{CREATE_TIME}
+            </if>
+            <if test="UPDATE_TIME != null">
+                ,UPDATE_TIME = now()
+            </if>
+        </set>
+        WHERE ID = #{ID}
+    </update>
+
+
+
+
+
+
+
+
+</mapper>
