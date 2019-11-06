@@ -58,5 +58,38 @@
         <!--]]>-->
     <!--</select>-->
 
+    <select id="selectCategoryChildrenByParentId" parameterType="int" resultType="com.small.vo.CATEGORY">
+        <![CDATA[
+        SELECT  ID
+                ,PARENT_ID
+                ,NAME
+                ,STATUS
+                ,SORT_ORDER
+                ,date_format(CREATE_TIME,'%Y-%m-%d %T') AS CREATE_TIME
+                ,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME
+        FROM 	MMALL_CATEGORY
+        WHERE 	PARENT_ID = #{parentId}
+        ]]>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="int" resultType="com.small.vo.CATEGORY">
+        <![CDATA[
+        SELECT  ID
+                ,PARENT_ID
+                ,NAME
+                ,STATUS
+                ,SORT_ORDER
+                ,date_format(CREATE_TIME,'%Y-%m-%d %T') AS CREATE_TIME
+                ,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME
+        FROM 	MMALL_CATEGORY
+        WHERE 	ID = #{categoryId}
+        ]]>
+    </select>
+
+
+
+
+
+
 
 </mapper>

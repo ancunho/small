@@ -1,8 +1,11 @@
 package com.small.service.impl;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.small.common.ServerResponse;
 import com.small.service.CategoryService;
 import com.small.vo.CATEGORY;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -10,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class CategoryServiceImpl implements CategoryService {
@@ -77,11 +81,55 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
+    /**
+     *
+     * @param categoryId
+     * @return
+     */
     public ServerResponse<List<CATEGORY>> getChildrenParallelCategory(Integer categoryId) {
+        logger.info(">>>>>>>getChildrenParallelCategory categoryID:" + categoryId);
+        List<CATEGORY> categoryList = sqlSession.selectList("SMALL.CATEGORY.selectCategoryChildrenByParentId", categoryId);
+        if (CollectionUtils.isEmpty(categoryList)) {
+            logger.info("未找到当前分类的子分类");
+        }
 
-
-        return null;
+        return ServerResponse.createBySuccess(categoryList);
     }
+
+    /**
+     * 递归查询本节点的id及孩子节点的id
+     * @param categoryId
+     * @return
+     */
+    public ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId) {
+        Set<CATEGORY> categorySet = Sets.newHashSet();
+        findChildCategory(categorySet, categoryId);
+
+        List<Integer> categoryIdList = Lists.newArrayList();
+        if (categoryId != null) {
+            for (CATEGORY categoryItem : categorySet) {
+                categoryIdList.add(categoryItem.getID());
+            }
+        }
+        return ServerResponse.createBySuccess(categoryIdList);
+    }
+
+    //递归算法,算出子节点
+    private Set<CATEGORY> findChildCategory(Set<CATEGORY> categorySet, Integer categoryId) {
+        CATEGORY category = sqlSession.selectOne("SMALL.CATEGORY.selectByPrimaryKey", categoryId);
+        if (category != null) {
+            categorySet.add(category);
+        }
+
+        //查找子节点,递归算法一定要有一个退出的条件
+        List<CATEGORY> categoryList = sqlSession.selectList("SMALL.CATEGORY.selectCategoryChildrenByParentId", categoryId);
+        for (CATEGORY categoryItem : categoryList) {
+            findChildCategory(categorySet, categoryItem.getID());
+        }
+
+        return categorySet;
+    }
+
 
     public SqlSession getSqlSession() {
         return sqlSession;

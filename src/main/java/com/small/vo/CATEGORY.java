@@ -1,6 +1,7 @@
 package com.small.vo;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class CATEGORY implements Serializable {
 
@@ -80,5 +81,19 @@ public class CATEGORY implements Serializable {
                 ", CREATE_TIME='" + CREATE_TIME + '\'' +
                 ", UPDATE_TIME='" + UPDATE_TIME + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CATEGORY category = (CATEGORY) o;
+        return ID == category.ID;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(ID);
     }
 }
