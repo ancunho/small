@@ -8,7 +8,6 @@ import com.small.service.ProductService;
 import com.small.service.UserService;
 import com.small.vo.PRODUCT;
 import com.small.vo.USER;
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

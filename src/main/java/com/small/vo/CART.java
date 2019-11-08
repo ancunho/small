@@ -12,6 +12,20 @@ public class CART implements Serializable {
     private String CREATE_TIME;
     private String UPDATE_TIME;
 
+    public CART(int ID, int USER_ID, int PRODUCT_ID, int QUANTITY, int CHECKED, String CREATE_TIME, String UPDATE_TIME) {
+        this.ID = ID;
+        this.USER_ID = USER_ID;
+        this.PRODUCT_ID = PRODUCT_ID;
+        this.QUANTITY = QUANTITY;
+        this.CHECKED = CHECKED;
+        this.CREATE_TIME = CREATE_TIME;
+        this.UPDATE_TIME = UPDATE_TIME;
+    }
+
+    public CART() {
+        super();
+    }
+
     public int getID() {
         return ID;
     }

@@ -18,6 +18,23 @@ public class USER implements Serializable {
     private String CREATE_TIME;
     private String UPDATE_TIME;
 
+    public USER(int ID, String WEIXIN_OPEN_ID, String USERNAME, String PASSWORD, String EMAIL, String PHONE, String QUESTION, String ANSWER, int ROLE, String CREATE_TIME, String UPDATE_TIME) {
+        this.ID = ID;
+        this.WEIXIN_OPEN_ID = WEIXIN_OPEN_ID;
+        this.USERNAME = USERNAME;
+        this.PASSWORD = PASSWORD;
+        this.EMAIL = EMAIL;
+        this.PHONE = PHONE;
+        this.QUESTION = QUESTION;
+        this.ANSWER = ANSWER;
+        this.ROLE = ROLE;
+        this.CREATE_TIME = CREATE_TIME;
+        this.UPDATE_TIME = UPDATE_TIME;
+    }
+
+    public USER() {
+        super();
+    }
 
     public int getID() {
         return ID;

@@ -32,6 +32,10 @@ public class PRODUCT implements Serializable {
         this.UPDATE_TIME = UPDATE_TIME;
     }
 
+    public PRODUCT() {
+        super();
+    }
+
     public Integer getID() {
         return ID;
     }
