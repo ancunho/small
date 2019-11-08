@@ -17,6 +17,21 @@ public class PRODUCT implements Serializable {
     private String CREATE_TIME;
     private String UPDATE_TIME;
 
+    public PRODUCT(Integer ID, Integer CATEGORY_ID, String NAME, String SUBTITLE, String MAIN_IMAGE, String SUB_IMAGES, String DETAIL, Integer PRICE, Integer STOCK, Integer STATUS, String CREATE_TIME, String UPDATE_TIME) {
+        this.ID = ID;
+        this.CATEGORY_ID = CATEGORY_ID;
+        this.NAME = NAME;
+        this.SUBTITLE = SUBTITLE;
+        this.MAIN_IMAGE = MAIN_IMAGE;
+        this.SUB_IMAGES = SUB_IMAGES;
+        this.DETAIL = DETAIL;
+        this.PRICE = PRICE;
+        this.STOCK = STOCK;
+        this.STATUS = STATUS;
+        this.CREATE_TIME = CREATE_TIME;
+        this.UPDATE_TIME = UPDATE_TIME;
+    }
+
     public Integer getID() {
         return ID;
     }
@@ -38,7 +53,7 @@ public class PRODUCT implements Serializable {
     }
 
     public void setNAME(String NAME) {
-        this.NAME = NAME;
+        this.NAME = NAME == null ? null : NAME.trim();
     }
 
     public String getSUBTITLE() {
@@ -46,7 +61,7 @@ public class PRODUCT implements Serializable {
     }
 
     public void setSUBTITLE(String SUBTITLE) {
-        this.SUBTITLE = SUBTITLE;
+        this.SUBTITLE = SUBTITLE == null ? null : SUBTITLE.trim();
     }
 
     public String getMAIN_IMAGE() {
@@ -54,7 +69,7 @@ public class PRODUCT implements Serializable {
     }
 
     public void setMAIN_IMAGE(String MAIN_IMAGE) {
-        this.MAIN_IMAGE = MAIN_IMAGE;
+        this.MAIN_IMAGE = MAIN_IMAGE == null ? null : MAIN_IMAGE.trim();
     }
 
     public String getSUB_IMAGES() {
@@ -62,7 +77,7 @@ public class PRODUCT implements Serializable {
     }
 
     public void setSUB_IMAGES(String SUB_IMAGES) {
-        this.SUB_IMAGES = SUB_IMAGES;
+        this.SUB_IMAGES = SUB_IMAGES == null ? null : SUB_IMAGES.trim();
     }
 
     public String getDETAIL() {
@@ -70,7 +85,7 @@ public class PRODUCT implements Serializable {
     }
 
     public void setDETAIL(String DETAIL) {
-        this.DETAIL = DETAIL;
+        this.DETAIL = DETAIL == null ? null : DETAIL.trim();
     }
 
     public Integer getPRICE() {

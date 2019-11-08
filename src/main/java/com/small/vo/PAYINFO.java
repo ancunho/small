@@ -13,6 +13,17 @@ public class PAYINFO implements Serializable {
     private String CREATE_TIME;
     private String UPDATE_TIME;
 
+    public PAYINFO(int ID, int USER_ID, int ORDER_NO, int PAY_PLATFORM, String PLATFORM_NUMBER, String PLATFORM_STATUS, String CREATE_TIME, String UPDATE_TIME) {
+        this.ID = ID;
+        this.USER_ID = USER_ID;
+        this.ORDER_NO = ORDER_NO;
+        this.PAY_PLATFORM = PAY_PLATFORM;
+        this.PLATFORM_NUMBER = PLATFORM_NUMBER;
+        this.PLATFORM_STATUS = PLATFORM_STATUS;
+        this.CREATE_TIME = CREATE_TIME;
+        this.UPDATE_TIME = UPDATE_TIME;
+    }
+
     public int getID() {
         return ID;
     }

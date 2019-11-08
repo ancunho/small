@@ -12,4 +12,13 @@ public interface ProductService {
      */
     ServerResponse saveOrUpdateProduct(PRODUCT product);
 
+
+    /**
+     * 修改产品状态
+     * @param productId
+     * @param status
+     * @return
+     */
+    ServerResponse setSalesStatus(Integer productId, Integer status);
+
 }

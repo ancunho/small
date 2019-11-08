@@ -1,5 +1,6 @@
 package com.small.service.impl;
 
+import com.small.common.ResponseCode;
 import com.small.common.ServerResponse;
 import com.small.service.ProductService;
 import com.small.vo.PRODUCT;
@@ -51,7 +52,22 @@ public class ProductServiceImpl implements ProductService {
         return ServerResponse.createByErrorMessage("新增或更新产品参数不正确");
     }
 
+    public ServerResponse setSalesStatus(Integer productId, Integer status) {
+        if (productId == null || status == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
 
+        PRODUCT product = new PRODUCT();
+        product.setID(productId);
+        product.setSTATUS(status);
+
+        int resultCount = sqlSession.update("SMALL.PRODUCT.updateByPrimaryKeySelective", product);
+        if (resultCount > 0) {
+            return ServerResponse.createBySuccessMessage("修改产品销售状态成功");
+        }
+
+        return ServerResponse.createByErrorMessage("修改产品销售状态失败");
+    }
 
 
     public SqlSession getSqlSession() {

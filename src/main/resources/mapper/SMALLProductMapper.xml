@@ -39,18 +39,18 @@
     <update id="updateByPrimaryKey" parameterType="com.small.vo.PRODUCT">
         <![CDATA[
          UPDATE MMALL_PRODUCT
-            SET CATEGORY_ID = #{CATEGORY_ID,JDBCTYPE=INTEGER}
-                ,NAME = #{NAME,JDBCTYPE=VARCHAR}
-                ,SUBTITLE = #{SUBTITLE,JDBCTYPE=VARCHAR}
-                ,MAIN_IMAGE = #{MAIN_IMAGE,JDBCTYPE=VARCHAR}
-                ,SUB_IMAGES = #{SUB_IMAGES,JDBCTYPE=VARCHAR}
-                ,DETAIL = #{DETAIL,JDBCTYPE=VARCHAR}
-                ,PRICE = #{PRICE,JDBCTYPE=DECIMAL}
-                ,STOCK = #{STOCK,JDBCTYPE=INTEGER}
-                ,STATUS = #{STATUS,JDBCTYPE=INTEGER}
-                ,CREATE_TIME = #{CREATE_TIME,JDBCTYPE=TIMESTAMP}
+            SET CATEGORY_ID = #{CATEGORY_ID}
+                ,NAME = #{NAME}
+                ,SUBTITLE = #{SUBTITLE}
+                ,MAIN_IMAGE = #{MAIN_IMAGE}
+                ,SUB_IMAGES = #{SUB_IMAGES}
+                ,DETAIL = #{DETAIL}
+                ,PRICE = #{PRICE}
+                ,STOCK = #{STOCK}
+                ,STATUS = #{STATUS}
+                ,CREATE_TIME = #{CREATE_TIME}
                 ,UPDATE_TIME = NOW()
-            WHERE ID = #{ID,JDBCTYPE=INTEGER}
+            WHERE ID = #{ID}
         ]]>
     </update>
 
