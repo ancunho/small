@@ -95,6 +95,64 @@
         WHERE ID = #{ID}
     </update>
 
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.small.vo.PRODUCT">
+        <![CDATA[
+        SELECT  ID
+                ,CATEGORY_ID
+                ,NAME
+                ,SUBTITLE
+                ,MAIN_IMAGE
+                ,SUB_IMAGES
+                ,DETAIL
+                ,PRICE
+                ,STOCK
+                ,STATUS
+                ,date_format(CREATE_TIME,'%Y-%m-%d %T') AS CREATE_TIME
+                ,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME
+        FROM    MMALL_PRODUCT
+        WHERE ID = #{ID}
+        ]]>
+    </select>
+
+    <select id="selectProductList" resultType="com.small.vo.PRODUCT">
+        <![CDATA[
+        SELECT  ID
+                ,CATEGORY_ID
+                ,NAME
+                ,SUBTITLE
+                ,MAIN_IMAGE
+                ,SUB_IMAGES
+                ,DETAIL
+                ,PRICE
+                ,STOCK
+                ,STATUS
+                ,date_format(CREATE_TIME,'%Y-%m-%d %T') AS CREATE_TIME
+                ,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME
+        FROM    MMALL_PRODUCT
+        ORDER BY ID ASC
+        ]]>
+    </select>
+
+    <select id="selectProductListByNameKeyword" parameterType="java.lang.String" resultType="com.small.vo.PRODUCT">
+         SELECT  ID
+                ,CATEGORY_ID
+                ,NAME
+                ,SUBTITLE
+                ,MAIN_IMAGE
+                ,SUB_IMAGES
+                ,DETAIL
+                ,PRICE
+                ,STOCK
+                ,STATUS
+                ,date_format(CREATE_TIME,'%Y-%m-%d %T') AS CREATE_TIME
+                ,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME
+        FROM    MMALL_PRODUCT
+        <where>
+            <if test="_parameter != null">
+                AND NAME LIKE #{_parameter}
+            </if>
+        </where>
+    </select>
 
 
 

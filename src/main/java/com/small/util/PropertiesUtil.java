@@ -1,6 +1,8 @@
 package com.small.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,14 +12,16 @@ public class PropertiesUtil {
 
     private static Properties props;
 
+    private static Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
+
     static {
         String fileName = "ckbiz.properties";
         props = new Properties();
         try {
             props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
         } catch (IOException e) {
-//            logger.error("配置文件读取异常",e);
-            System.out.println("配置文件读取异常");
+            logger.error("配置文件读取异常",e);
+//            System.out.println("配置文件读取异常");
         }
     }
 

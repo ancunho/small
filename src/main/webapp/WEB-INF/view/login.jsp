@@ -58,6 +58,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var l = $("#btnLogin").ladda();
+        $("#USERNAME").focus();
 
         $("#btnLogin").unbind('click').click(function(){
 
