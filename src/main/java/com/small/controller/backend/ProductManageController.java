@@ -132,8 +132,13 @@ public class ProductManageController {
         if (userService.checkAdminRole(user).isSuccess()) {
             String path = request.getServletContext().getRealPath(DateUtil.getDays());
             logger.info("文件的上传路径是：{}", path);
-            String targetFileName = fileService.upload(file, path);
-            return ServerResponse.createBySuccess(targetFileName);
+            if (file.getSize() > 0) {
+                String targetFileName = fileService.upload(file, path);
+                return ServerResponse.createBySuccess(targetFileName);
+            } else {
+                return null;
+            }
+
         } else {
             return ServerResponse.createByErrorMessage("无权限操作");
         }
