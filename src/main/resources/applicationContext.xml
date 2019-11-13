@@ -70,6 +70,10 @@
         <property name="sqlSession" ref="sqlSession" />
     </bean>
 
+    <bean id="fileService" class="com.small.service.impl.FileServiceImpl">
+        <property name="sqlSession" ref="sqlSession" />
+    </bean>
+
     <!--<bean id="eventService" class="vip.ckbiz.service.impl.EventServiceImpl">-->
         <!--<property name="sqlSession" ref="sqlSession" />-->
     <!--</bean>-->

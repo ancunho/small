@@ -131,17 +131,17 @@ public class HttpUtility {
     }
 
     public static boolean isOverIE50(HttpServletRequest req) {
-        String user_agent = (String) req.getHeader("user-agent");
+            String user_agent = (String) req.getHeader("user-agent");
 
-        if ( user_agent == null ) 	return false;
+            if ( user_agent == null ) 	return false;
 
-        int index = user_agent.indexOf("MSIE");
-        if ( index == -1 ) return false;
+            int index = user_agent.indexOf("MSIE");
+            if ( index == -1 ) return false;
 
-        int version = 0;
-        try {
-            version = Integer.parseInt(user_agent.substring(index+5, index+5+1));
-        }
+            int version = 0;
+            try {
+                version = Integer.parseInt(user_agent.substring(index+5, index+5+1));
+            }
         catch(Exception e){}
         if ( version < 5 ) return false;
 
