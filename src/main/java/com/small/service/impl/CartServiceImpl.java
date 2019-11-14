@@ -1,5 +1,6 @@
 package com.small.service.impl;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.small.common.Const;
 import com.small.common.ResponseCode;
@@ -30,11 +31,18 @@ public class CartServiceImpl implements CartService {
 
     private static final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
 
-    public ServerResponse add(Integer userId, Integer productId, Integer count) {
+    /**
+     * 장바구니에 담기.  전에 없으면 신규추가. 있으면 업데이트
+     * @param userId
+     * @param productId
+     * @param count
+     * @return
+     */
+    public ServerResponse<CartItemVO> add(Integer userId, Integer productId, Integer count) {
         if (productId == null || count == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
-
+        logger.info("cart add>>>>userId>>>>>" + userId);
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("USER_ID", userId);
         param.put("PRODUCT_ID", productId);
@@ -59,6 +67,64 @@ public class CartServiceImpl implements CartService {
         return this.list(userId);
     }
 
+    /**
+     * 更新购物车
+     * @param userId
+     * @param productId
+     * @param count
+     * @return
+     */
+    public ServerResponse<CartItemVO> update(Integer userId, Integer productId, Integer count) {
+        if (productId == null || count == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("USER_ID", userId);
+        param.put("PRODUCT_ID", productId);
+        CART cart = sqlSession.selectOne("SMALL.CART.selectCartByUserIdProductId", param);
+        if (cart !=  null) {
+            cart.setQUANTITY(count);
+        }
+
+        sqlSession.update("SMALL.CART.updateByPrimaryKey", cart);
+        return this.list(userId);
+    }
+
+    /**
+     * 删除购物车里的产品
+     * @param userId
+     * @param productIds
+     * @return
+     */
+    public ServerResponse<CartItemVO> deleteProduct(Integer userId, String productIds) {
+        List<String> productIdList = Splitter.on(",").splitToList(productIds);
+        if (CollectionUtils.isEmpty(productIdList)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("USER_ID", userId);
+        param.put("productIdList", productIdList);
+        sqlSession.delete("SMALL.CART.deleteByUserIdProductIds", param);
+
+        return this.list(userId);
+    }
+
+    /**
+     * 选择或取消选择（包括单选和全选--根据productId的值来判断
+     * 如果productId为空值，认为全部操作
+     * @param userId
+     * @param productId
+     * @param checked
+     * @return
+     */
+    public ServerResponse<CartItemVO> selectOrUnSelect(Integer userId, Integer productId, Integer checked) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("USER_ID", userId);
+        param.put("PRODUCT_ID", productId);
+        param.put("CHECKED", checked);
+        sqlSession.update("SMALL.CART.checkedOrUncheckedProduct", param);
+        return this.list(userId);
+    }
 
     public ServerResponse<CartItemVO> list(Integer userId){
         CartItemVO cartVo = this.getCartVoLimit(userId);
@@ -66,6 +132,7 @@ public class CartServiceImpl implements CartService {
     }
 
     private CartItemVO getCartVoLimit(Integer userId) {
+        logger.info("userId-->" + userId);
         CartItemVO cartItemVO = new CartItemVO();
         //1. 사용자의 장바구니 리스트목록을 가져온다.
         List<CART> cartList = sqlSession.selectList("SMALL.CART.selectCartByUserId", userId);
@@ -108,12 +175,19 @@ public class CartServiceImpl implements CartService {
                     //计算总价
                     cartProductVO.setPRODUCT_TOTAL_PRICE(BigDecimalUtil.mul(product.getPRICE().doubleValue(), cartProductVO.getQUANTITY()));
                     cartProductVO.setPRODUCT_CHECKED(cartItem.getCHECKED());
+
+                    if (cartItem.getCHECKED() == Const.Cart.CHECKED) {
+                        //如果已经勾选,增加到整个的购物车总价中
+                        logger.info("cartProductVO.getPRODUCT_TOTAL_PRICE():" + cartProductVO.getPRODUCT_TOTAL_PRICE());
+                        if (cartProductVO.getPRODUCT_TOTAL_PRICE() == null) {
+                            cartProductVO.setPRODUCT_TOTAL_PRICE(new BigDecimal("0"));
+                        }
+                        cartTotalPrice = BigDecimalUtil.add(cartTotalPrice.doubleValue(), cartProductVO.getPRODUCT_TOTAL_PRICE().doubleValue());
+                    }
+
+                    cartProductVOList.add(cartProductVO);
                 }
-                if (cartItem.getCHECKED() == Const.Cart.CHECKED) {
-                    //如果已经勾选,增加到整个的购物车总价中
-                    cartTotalPrice = BigDecimalUtil.add(cartTotalPrice.doubleValue(), cartProductVO.getPRODUCT_TOTAL_PRICE().doubleValue());
-                }
-                cartProductVOList.add(cartProductVO);
+
             }
 
         }

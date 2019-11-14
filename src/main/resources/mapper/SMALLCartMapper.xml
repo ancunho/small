@@ -129,8 +129,8 @@
                 )
                 VALUES
                 (
-                #{USERID}
-                , #{PRODUCTID}
+                #{USER_ID}
+                , #{PRODUCT_ID}
                 , #{QUANTITY}
                 , #{CHECKED}
                 , NOW()
@@ -142,25 +142,36 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.small.vo.CART" >
         UPDATE MMALL_CART
         <set >
-            <if test="userId != null" >
+            <if test="USER_ID != null" >
                 USER_ID = #{USER_ID},
             </if>
-            <if test="productId != null" >
+            <if test="PRODUCT_ID != null" >
                 PRODUCT_ID = #{PRODUCT_ID},
             </if>
-            <if test="quantity != null" >
+            <if test="QUANTITY != null" >
                 QUANTITY = #{QUANTITY},
             </if>
-            <if test="checked != null" >
+            <if test="CHECKED != null" >
                 CHECKED = #{CHECKED},
             </if>
-            <if test="createTime != null" >
+            <if test="CREATE_TIME != null" >
                 CREATE_TIME = #{CREATE_TIME},
             </if>
-            <if test="updateTime != null" >
+            <if test="UPDATE_TIME != null" >
                 UPDATE_TIME = now(),
             </if>
         </set>
+        WHERE ID = #{ID}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.small.vo.CART" >
+        UPDATE  MMALL_CART
+          SET   USER_ID = #{USER_ID}
+                , PRODUCT_ID = #{PRODUCT_ID}
+                , QUANTITY = #{QUANTITY}
+                , CHECKED = #{CHECKED}
+                , CREATE_TIME = #{CREATE_TIME}
+                , UPDATE_TIME = NOW()
         WHERE ID = #{ID}
     </update>
 
@@ -168,6 +179,26 @@
         SELECT  COUNT(1) FROM MMALL_CART WHERE CHECKED = 0 AND USER_ID = #{USERID}
     </select>
 
+    <delete id="deleteByUserIdProductIds" parameterType="map">
+        DELETE FROM MMALL_CART
+        WHERE USER_ID = #{USER_ID}
+        <if test="productIdList != null">
+            AND PRODUCT_ID IN
+            <foreach collection="productIdList" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <update id="checkedOrUncheckedProduct" parameterType="map">
+        UPDATE  mmall_cart
+        SET     CHECKED = #{CHECKED}
+                , UPDATE_TIME = NOW()
+        WHERE   USER_ID = #{USER_ID}
+        <if test="PRODUCT_ID != null">
+            and product_id = #{PRODUCT_ID}
+        </if>
+    </update>
 
 
 </mapper>
