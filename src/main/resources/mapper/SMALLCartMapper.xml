@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SMALL.CART">
+
+    <!--<insert id="addCategory" parameterType="com.small.vo.CATEGORY">-->
+        <!--<![CDATA[-->
+        <!--INSERT INTO MMALL_CATEGORY-->
+                    <!--(-->
+                     <!--PARENT_ID-->
+                    <!--,NAME-->
+                    <!--,STATUS-->
+                    <!--,SORT_ORDER-->
+                    <!--,CREATE_TIME-->
+                    <!--,UPDATE_TIME-->
+                    <!--)-->
+        <!--VALUES-->
+                    <!--(-->
+                     <!--#{PARENT_ID}-->
+                    <!--,#{NAME}-->
+                    <!--,#{STATUS}-->
+                    <!--,#{SORT_ORDER}-->
+                    <!--,sysdate()-->
+                    <!--,sysdate()-->
+                    <!--)-->
+        <!--]]>-->
+    <!--</insert>-->
+
+    <!--<update id="updateCategoryName" parameterType="com.small.vo.CATEGORY">-->
+        <!--UPDATE MMALL_CATEGORY-->
+        <!--<set>-->
+            <!--<if test="PARENT_ID != null">-->
+                <!--PARENT_ID = #{PARENT_ID}-->
+            <!--</if>-->
+            <!--<if test="NAME != null">-->
+                <!--,NAME = #{NAME}-->
+            <!--</if>-->
+            <!--<if test="STATUS != null">-->
+                <!--,STATUS = #{STATUS}-->
+            <!--</if>-->
+            <!--<if test="SORT_ORDER != null">-->
+                <!--,SORT_ORDER = #{SORT_ORDER}-->
+            <!--</if>-->
+            <!--<if test="CREATE_TIME != null">-->
+                <!--,CREATE_TIME = #{CREATE_TIME}-->
+            <!--</if>-->
+            <!--<if test="UPDATE_TIME != null">-->
+                <!--,UPDATE_TIME = now()-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--WHERE ID = #{ID}-->
+    <!--</update>-->
+
+    <!--&lt;!&ndash;<select id="checkUsername" parameterType="String" resultType="int">&ndash;&gt;-->
+        <!--&lt;!&ndash;<![CDATA[&ndash;&gt;-->
+        <!--&lt;!&ndash;SELECT  COUNT(1)&ndash;&gt;-->
+        <!--&lt;!&ndash;FROM    MALL_USER&ndash;&gt;-->
+        <!--&lt;!&ndash;WHERE   USERNAME = #{username}&ndash;&gt;-->
+        <!--&lt;!&ndash;]]>&ndash;&gt;-->
+    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+
+    <!--<select id="selectCategoryChildrenByParentId" parameterType="int" resultType="com.small.vo.CATEGORY">-->
+        <!--<![CDATA[-->
+        <!--SELECT  ID-->
+                <!--,PARENT_ID-->
+                <!--,NAME-->
+                <!--,STATUS-->
+                <!--,SORT_ORDER-->
+                <!--,date_format(CREATE_TIME,'%Y-%m-%d %T') AS CREATE_TIME-->
+                <!--,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME-->
+        <!--FROM 	MMALL_CATEGORY-->
+        <!--WHERE 	PARENT_ID = #{parentId}-->
+        <!--]]>-->
+    <!--</select>-->
+
+    <!--<select id="selectByPrimaryKey" parameterType="int" resultType="com.small.vo.CATEGORY">-->
+        <!--<![CDATA[-->
+        <!--SELECT  ID-->
+                <!--,PARENT_ID-->
+                <!--,NAME-->
+                <!--,STATUS-->
+                <!--,SORT_ORDER-->
+                <!--,date_format(CREATE_TIME,'%Y-%m-%d %T') AS CREATE_TIME-->
+                <!--,date_format(UPDATE_TIME,'%Y-%m-%d %T') AS UPDATE_TIME-->
+        <!--FROM 	MMALL_CATEGORY-->
+        <!--WHERE 	ID = #{categoryId}-->
+        <!--]]>-->
+    <!--</select>-->
+
+
+    <select id="selectCartByUserIdProductId" parameterType="map" resultType="com.small.vo.CART">
+        <![CDATA[
+        SELECT  ID
+                ,USER_ID
+                ,PRODUCT_ID
+                ,QUANTITY
+                ,CHECKED
+                ,CREATE_TIME
+                ,UPDATE_TIME
+        FROM    MMALL_CART
+        WHERE USER_ID = #{USER_ID}
+        AND PRODUCT_ID = #{PRODUCT_ID}
+        ]]>
+    </select>
+
+    <select id="selectCartByUserId" parameterType="int" resultType="com.small.vo.CART">
+        <![CDATA[
+        SELECT  ID
+                ,USER_ID
+                ,PRODUCT_ID
+                ,QUANTITY
+                ,CHECKED
+                ,CREATE_TIME
+                ,UPDATE_TIME
+        FROM    MMALL_CART
+        WHERE USER_ID = #{USER_ID}
+        ]]>
+    </select>
+
+    <insert id="insertCART" parameterType="com.small.vo.CART">
+        <![CDATA[
+        INSERT INTO MMALL_CART
+                (
+                USER_ID
+                , PRODUCT_ID
+                , QUANTITY
+                , CHECKED
+                , CREATE_TIME
+                , UPDATE_TIME
+                )
+                VALUES
+                (
+                #{USERID}
+                , #{PRODUCTID}
+                , #{QUANTITY}
+                , #{CHECKED}
+                , NOW()
+                , NOW()
+                )
+        ]]>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.small.vo.CART" >
+        UPDATE MMALL_CART
+        <set >
+            <if test="userId != null" >
+                USER_ID = #{USER_ID},
+            </if>
+            <if test="productId != null" >
+                PRODUCT_ID = #{PRODUCT_ID},
+            </if>
+            <if test="quantity != null" >
+                QUANTITY = #{QUANTITY},
+            </if>
+            <if test="checked != null" >
+                CHECKED = #{CHECKED},
+            </if>
+            <if test="createTime != null" >
+                CREATE_TIME = #{CREATE_TIME},
+            </if>
+            <if test="updateTime != null" >
+                UPDATE_TIME = now(),
+            </if>
+        </set>
+        WHERE ID = #{ID}
+    </update>
+
+    <select id="selectCartProductCheckedStatusByUserId" resultType="int" parameterType="int">
+        SELECT  COUNT(1) FROM MMALL_CART WHERE CHECKED = 0 AND USER_ID = #{USERID}
+    </select>
+
+
+
+</mapper>

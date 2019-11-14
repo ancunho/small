@@ -74,6 +74,10 @@
         <property name="sqlSession" ref="sqlSession" />
     </bean>
 
+    <bean id="cartService" class="com.small.service.impl.CartServiceImpl">
+        <property name="sqlSession" ref="sqlSession" />
+    </bean>
+
     <!--<bean id="eventService" class="vip.ckbiz.service.impl.EventServiceImpl">-->
         <!--<property name="sqlSession" ref="sqlSession" />-->
     <!--</bean>-->
